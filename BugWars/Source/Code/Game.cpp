@@ -45,9 +45,8 @@ void Game::OnRender() const
 
 void Game::AddObject(GameObject* object)
 {
+	object->disabled = false;
 	objects.push_back(object);
-	//if (object->GetRTTI() == Bug::s_RTTI) {
-	//}
 }
 
 void Game::OnBugsSpawned()
