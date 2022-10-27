@@ -14,12 +14,12 @@ void Bullet::OnUpdate(float dt)
 {
 	for (auto object : g_Game->objects)
 		if (!object->disabled)
-			if (auto bug = dynamic_cast<Bug*>(object))
-				if (bug->position.Distance(position) < bug->GetRadius())
+			if (object->GetRTTI() == Bug::s_RTTI)
+				if (object->position.Distance(position) < object->GetRadius())
 				{
 					g_Game->tank->score++;
-					bug->disabled = true;
-					bug->visible = false;
+					object->disabled = true;
+					object->visible = false;
 					disabled = true;
 					visible = false;
 					return;
