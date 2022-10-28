@@ -14,6 +14,7 @@ struct Game : public GameBase
 	virtual void AddObject(GameObject* object) override;
 
 	virtual void OnBugsSpawned() override;
+	bool IsObjectOnScreen(GameObject* object);
 
 	std::vector<GameObject*> objects;
 };

@@ -5,11 +5,13 @@
 #include "Bug.h"
 #include "Bullet.h"
 
+#include "GameBase/Framework.h"
+
 Game* g_Game;
 
 Game::Game()
 	: GameBase({
-				[] {return new Tank; },
+				[] { Tank* tank = new Tank;  return tank; },
 				[] {return new Bug; },
 				[] {return new Bullet; } })
 {
@@ -29,7 +31,7 @@ void Game::OnUpdate(float dt)
 	for (size_t i = 0; i < objects.size(); ++i)
 		if (!objects[i]->disabled) {
 			objects[i]->Update(dt);
-
+			objects[i]->visible = IsObjectOnScreen(objects[i]);
 		}	else {
 			delete objects[i];
 			objects.erase(objects.begin() + i);
@@ -51,4 +53,10 @@ void Game::AddObject(GameObject* object)
 
 void Game::OnBugsSpawned()
 {
+}
+
+bool Game::IsObjectOnScreen(GameObject* object) {
+	Point radius_vector = tank->position - object->position;
+	return std::abs(radius_vector.y) < framework->screenSize.y / 2 + 32 && // half of the bug
+				 std::abs(radius_vector.x) < framework->screenSize.x / 2 + 32;
 }
