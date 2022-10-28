@@ -12,25 +12,22 @@ BugBase* Bug::FindBugToEat() const
 {
 	Bug* target = nullptr;
 	float min_dist2 = std::numeric_limits<float>::max();
-	for (auto object : g_Game->objects)
+	for (auto object : g_Game->bugs)
 	{
-		if (object->GetRTTI() == Bug::s_RTTI)
+		if (object == this)
+			continue;
+
+		if (object->disabled)
+			continue;
+
+		if (object->id > id)
+			continue; // Can't eat that
+
+		float dist2 = position.Distance2(object->position);
+		if (dist2 < min_dist2)
 		{
-			if (object == this)
-				continue;
-
-			if (object->disabled)
-				continue;
-
-			if (object->id > id)
-				continue; // Can't eat that
-
-			float dist2 = position.Distance2(object->position);
-			if (dist2 < min_dist2)
-			{
-				min_dist2 = dist2;
-				target = static_cast<Bug*>(object);;
-			}
+			min_dist2 = dist2;
+			target = static_cast<Bug*>(object);
 		}
 	}
 

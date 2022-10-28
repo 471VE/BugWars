@@ -15,16 +15,13 @@ BugBase* Tank::GetBugToShoot() const
 {
 	Bug* target_bug = nullptr;
 	float min_distance2 = std::numeric_limits<float>::infinity();
-	for (auto obj : g_Game->objects)
-		if (obj->GetRTTI() == Bug::s_RTTI) {
-
-			float distance2 = position.Distance2(obj->position);
-			if (distance2 < min_distance2) {
-				min_distance2 = distance2;
-				target_bug = static_cast<Bug*>(obj);
-			}
+	for (auto obj : g_Game->bugs) {
+		float distance2 = position.Distance2(obj->position);
+		if (distance2 < min_distance2) {
+			min_distance2 = distance2;
+			target_bug = static_cast<Bug*>(obj);
 		}
-
+	}
 	return target_bug;
 }
 
