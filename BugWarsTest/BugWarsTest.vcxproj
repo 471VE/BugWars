@@ -130,7 +130,7 @@
       <AdditionalDependencies>UnitTest++-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>$(OutDir)BugWarsTest</Command>
+      <Command>"$(OutDir)BugWarsTest"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,7 +153,7 @@
       <AdditionalDependencies>UnitTest++.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>$(OutDir)BugWarsTest</Command>
+      <Command>"$(OutDir)BugWarsTest"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -164,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Code\Main.cpp" />
     <ClCompile Include="Source\Code\pch.cpp" />
+    <ClCompile Include="Source\Code\TestBugsTargetSearch.cpp" />
     <ClCompile Include="Source\Code\TestTankShoot.cpp" />
   </ItemGroup>
   <ItemGroup>
