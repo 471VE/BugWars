@@ -17,6 +17,9 @@ struct Game : public GameBase
 	bool IsObjectOnScreen(GameObject* object);
 
 	std::vector<GameObject*> bugs;
+	// Tests demand 'objects' variable, ¯\_(ツ)_/¯
+	std::vector<GameObject*>& objects = bugs;
+
 	std::vector<GameObject*> other_objects;
 	std::vector<GameObject*>* all_objects[2];
 };

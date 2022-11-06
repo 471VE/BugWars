@@ -43,7 +43,6 @@ Game::~Game() {
 void Game::OnUpdate(float dt)
 {
 	PIXScopedEvent(PIX_COLOR_INDEX(5), __FUNCTION__);
-
 	APPLY_TO_ALL_GAME_OBJECTS(
 		if (!game_object->disabled) {
 			game_object->Update(dt);
@@ -78,6 +77,7 @@ void Game::OnBugsSpawned()
 }
 
 bool Game::IsObjectOnScreen(GameObject* object) {
+	if (tank == nullptr) return false;
 	Point radius_vector = tank->position - object->position;
 	return std::abs(radius_vector.y) < framework->screenSize.y / 2 + 32 && // half of the bug
 				 std::abs(radius_vector.x) < framework->screenSize.x / 2 + 32;
