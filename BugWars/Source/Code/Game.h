@@ -30,7 +30,7 @@ struct Game : public GameBase
 	std::vector<GameObject*> other_objects;
 	std::vector<GameObject*>* all_objects[2];
 
-	std::unordered_set<GameObject*> chunks[chunkNum][chunkNum];
+	std::unordered_set<GameObject*> chunks[chunkNum * chunkNum];
 };
 
 int GetChunk(float position_coordinate);

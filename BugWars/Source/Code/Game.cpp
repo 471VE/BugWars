@@ -51,7 +51,7 @@ void Game::OnUpdate(float dt)
 		else {
 			if (game_object->GetRTTI() == Bug::s_RTTI) {
 				Bug* bug = static_cast<Bug*>(game_object);
-				chunks[bug->i][bug->j].erase(game_object);
+				chunks[bug->i * chunkNum + bug->j].erase(game_object);
 			}
 			delete game_object;
 			game_objects.erase(game_objects.begin() + game_object_index);
@@ -71,14 +71,11 @@ void Game::AddObject(GameObject* object)
 {
 	object->disabled = false;
 	if (object->GetRTTI() == Bug::s_RTTI) {
-		int x_chunk = GetChunk(object->position.x);
-		int y_chunk = GetChunk(object->position.y);
+		Bug* bug = static_cast<Bug*>(object);
+		bug->i = GetChunk(object->position.x);
+		bug->j = GetChunk(object->position.y);
 
-		static_cast<Bug*>(object)->i = x_chunk;
-		static_cast<Bug*>(object)->j = y_chunk;
-
-		chunks[x_chunk][y_chunk].insert(object);
-
+		chunks[bug->i * chunkNum + bug->j].insert(object);
 		bugs.push_back(object);
 	}
 	else 
@@ -91,11 +88,11 @@ void Game::OnBugsSpawned()
 
 bool Game::IsObjectOnScreen(GameObject* object) {
 	if (tank == nullptr) return false;
-	Point radius_vector = tank->position - object->position;
-	return std::abs(radius_vector.y) < framework->screenSize.y / 2 + 32 && // half of the bug
-				 std::abs(radius_vector.x) < framework->screenSize.x / 2 + 32;
+	Point radius_vector = (tank->position - object->position) * 2.f;
+	return std::abs(radius_vector.y) - 32.f < framework->screenSize.y && // half of the bug
+				 std::abs(radius_vector.x) - 32.f < framework->screenSize.x;
 }
 
 int GetChunk(float position_coordinate) {
-	return static_cast<int>(position_coordinate) / chunkSize;
+	return static_cast<int>(position_coordinate / chunkSize);
 }

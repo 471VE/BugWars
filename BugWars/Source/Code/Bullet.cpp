@@ -12,9 +12,11 @@ void Bullet::OnStart(Point)
 
 void Bullet::OnUpdate(float dt)
 {
-	for (auto object : g_Game->bugs)
+	int x_chunk = GetChunk(position.x);
+	int y_chunk = GetChunk(position.y);
+	for (auto object : g_Game->chunks[x_chunk * chunkNum + y_chunk])
 		if (!object->disabled)
-			if (object->position.Distance(position) < object->GetRadius())
+			if (object->position.Distance2(position) < object->GetRadius() * object->GetRadius())
 			{
 				g_Game->tank->score++;
 				object->disabled = true;

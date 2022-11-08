@@ -12,10 +12,10 @@ void Bug::OnUpdate(float dt)
 	if ((i == x_chunk && j == y_chunk) || x_chunk < 0)
 		return;
 
-	g_Game->chunks[i][j].erase(this);
+	g_Game->chunks[i * chunkNum + j].erase(this);
 	i = x_chunk;
 	j = y_chunk;
-	g_Game->chunks[i][j].insert(this);
+	g_Game->chunks[i * chunkNum + j].insert(this);
 }
 
 BugBase* Bug::FindBugToEat() const
@@ -30,7 +30,7 @@ BugBase* Bug::FindBugToEat() const
 
 	for (int i = x_chunk_min; i < x_chunk_max; ++i) {
 		for (int j = y_chunk_min; j < y_chunk_max; ++j) {
-			for (auto object : g_Game->chunks[i][j])
+			for (auto object : g_Game->chunks[i * chunkNum + j])
 			{
 				if (object == this)
 					continue;
