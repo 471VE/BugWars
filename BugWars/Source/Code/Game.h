@@ -2,6 +2,13 @@
 #include "GameBase/GameBase.h"
 #include "Globals.h"
 
+const int fieldSize = 10000;
+const int chunkSize = 500;
+const int chunkNum = fieldSize / chunkSize;
+
+const float radius = 500.f;
+const float radius2 = radius * radius;
+
 struct Tank;
 
 struct Game : public GameBase
@@ -22,4 +29,8 @@ struct Game : public GameBase
 
 	std::vector<GameObject*> other_objects;
 	std::vector<GameObject*>* all_objects[2];
+
+	std::unordered_set<GameObject*> chunks[chunkNum][chunkNum];
 };
+
+int GetChunk(float position_coordinate);

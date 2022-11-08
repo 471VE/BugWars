@@ -15,6 +15,24 @@ BugBase* Tank::GetBugToShoot() const
 {
 	Bug* target_bug = nullptr;
 	float min_distance2 = std::numeric_limits<float>::infinity();
+
+	int x_chunk = GetChunk(position.x);
+	int y_chunk = GetChunk(position.y);
+
+	for (int i = std::max(0, x_chunk - 1); i < std::min(x_chunk + 2, chunkNum); ++i) {
+		for (int j = std::max(0, y_chunk - 1); j < std::min(y_chunk + 2, chunkNum); ++j) {
+			for (auto obj : g_Game->chunks[i][j]) {
+				float distance2 = position.Distance2(obj->position);
+				if (distance2 < min_distance2) {
+					min_distance2 = distance2;
+					target_bug = static_cast<Bug*>(obj);
+				}
+			}
+		}
+	}
+	if (target_bug)
+		return target_bug;
+
 	for (auto obj : g_Game->bugs) {
 		float distance2 = position.Distance2(obj->position);
 		if (distance2 < min_distance2) {
